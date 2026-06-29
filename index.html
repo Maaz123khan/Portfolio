@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maaz | Maaz Khan Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        cyberdark: '#090a0f',
+                        cybercard: '#121420',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Neon Styling & Theme Bindings */
+        :root {
+            --accent-rgb: 0, 229, 255;
+            /* Default Cyan */
+            --accent: rgb(var(--accent-rgb));
+            --accent-glow: rgba(var(--accent-rgb), 0.25);
+            --secondary-rgb: 255, 42, 133;
+            /* Hot Pink */
+            --secondary: rgb(var(--secondary-rgb));
+            --secondary-glow: rgba(var(--secondary-rgb), 0.25);
+        }
+
+        .neon-border {
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .neon-border-pink {
+            border: 1px solid var(--secondary);
+            box-shadow: 0 0 15px var(--secondary-glow);
+        }
+
+        .text-neon {
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .text-neon-pink {
+            color: var(--secondary);
+            text-shadow: 0 0 10px var(--secondary-glow);
+        }
+
+        .bg-neon {
+            background-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .bg-neon-pink {
+            background-color: var(--secondary);
+            box-shadow: 0 0 20px var(--secondary);
+        }
+
+        /* Smooth glassmorphic backgrounds */
+        .glass-panel {
+            background: rgba(18, 20, 32, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .light .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #090a0f;
+        }
+
+        .light ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Add this to your main CSS file or inside <style> tags */
+        .fade-in-down {
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-cyberdark text-slate-100 font-sans selection:bg-cyan-500 selection:text-black transition-colors duration-300 overflow-x-hidden">
+
+    <!-- FLOATING STYLE / COLOR SWITCHER PANEL -->
+    <div id="styleSwitcher" class="fixed right-4 top-24 z-50 flex flex-col items-end gap-2">
+        <!-- Switcher Toggle Button -->
+        <button id="switcherToggle"
+            class="w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl text-neon hover:scale-110 transition-transform shadow-lg focus:outline-none border border-cyan-500/30">
+            <i class="fa-solid fa-palette animate-spin-slow"></i>
+        </button>
+        <!-- Panel content -->
+        <div id="switcherPanel"
+            class="hidden glass-panel p-4 rounded-2xl shadow-2xl flex flex-col gap-4 border border-slate-700 w-48 transition-all duration-300">
+            <div>
+                <h4 class="text-xs font-semibold tracking-wider text-slate-400 mb-2 uppercase">Accent Glow</h4>
+                <div class="flex gap-2 justify-between">
+                    <!-- Cyan Swatch -->
+                    <button onclick="setAccent('0, 229, 255')"
+                        class="w-8 h-8 rounded-full bg-cyan-400 border-2 border-transparent hover:scale-110 transition-transform focus:outline-none"
+                        title="Electric Cyan"></button>
+                    <!-- Pink Swatch -->
+                    <button onclick="setAccent('255, 42, 133')"
+                        class="w-8 h-8 rounded-full bg-pink-500 border-2 border-transparent hover:scale-110 transition-transform focus:outline-none"
+                        title="Hot Pink"></button>
+                    <!-- Green Swatch -->
+                    <button onclick="setAccent('57, 255, 20')"
+                        class="w-8 h-8 rounded-full bg-emerald-400 border-2 border-transparent hover:scale-110 transition-transform focus:outline-none"
+                        title="Volt Green"></button>
+                </div>
+            </div>
+            <hr class="border-slate-800">
+            <div>
+                <h4 class="text-xs font-semibold tracking-wider text-slate-400 mb-2 uppercase">Theme Mood</h4>
+                <button id="themeToggle"
+                    class="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-medium flex items-center justify-center gap-2 transition-all">
+                    <i id="themeIcon" class="fa-solid fa-moon text-neon"></i>
+                    <span id="themeText">Dark Theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER & NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full z-40 transition-all duration-300 glass-panel border-b border-slate-800/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#home"
+                class="flex items-center gap-2 text-2xl font-bold font-display tracking-tight hover:opacity-80 transition-opacity">
+                <span class="text-neon"> <img src="./images/logo.webp" alt="Logo"
+                        style="height: 120px; width: 150px;"></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex items-center gap-8 font-medium">
+                <a href="#home" class="text-slate-300 hover:text-white transition-colors">Home</a>
+                <a href="#services" class="text-slate-300 hover:text-white transition-colors">Services</a>
+                <a href="#skills" class="text-slate-300 hover:text-white transition-colors">Skills</a>
+                <a href="#works" class="text-slate-300 hover:text-white transition-colors">Works</a>
+                <a href="#resume" class="text-slate-300 hover:text-white transition-colors">Resume</a>
+                <a href="#testimonials" class="text-slate-300 hover:text-white transition-colors">Testimonials</a>
+                <a href="#contact" class="text-slate-300 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <!-- Desktop Quick Actions -->
+            <div class="hidden lg:flex items-center gap-4">
+                <!-- Updated WhatsApp Button -->
+                <a href="javascript:void(0)" onclick="document.getElementById('contactModal').showModal()"
+                    class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-semibold text-white transition-all duration-300 flex items-center gap-2 shadow-lg shadow-emerald-900/40 hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
+                </a>
+
+                <!-- Updated Call Me Button -->
+                <a href="javascript:void(0)" onclick="document.getElementById('contactModal').showModal()"
+                    class="px-4 py-2 rounded-xl neon-border hover:scale-105 font-semibold text-white transition-all duration-300 flex items-center gap-2 bg-slate-900/50">
+                    <i class="fa-solid fa-phone"></i> Call Me
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="menuBtn"
+                class="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl glass-panel text-slate-300 hover:text-white focus:outline-none border border-slate-700/50"
+                aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars-staggered text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION DRAWER OVERLAY -->
+    <div id="mobileMenu"
+        class="fixed inset-0 z-50 bg-cyberdark bg-opacity-95 backdrop-blur-lg flex flex-col justify-between p-6 transform translate-x-full transition-transform duration-300 lg:hidden">
+        <div>
+            <!-- Header inside Mobile Drawer -->
+            <div class="flex items-center justify-between mb-8">
+                <a href="#home" class="text-2xl font-bold font-display"><span class="text-neon">M</span>iller</a>
+                <button id="closeBtn"
+                    class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800 text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Links -->
+            <nav class="flex flex-col gap-6 text-xl font-medium">
+                <a href="#home" class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Home</a>
+                <a href="#services"
+                    class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Services</a>
+                <a href="#skills" class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Skills</a>
+                <a href="#works" class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Works</a>
+                <a href="#resume" class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Resume</a>
+                <a href="#testimonials"
+                    class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Testimonials</a>
+                <a href="#contact" class="mobile-nav-link text-slate-300 hover:text-white transition-colors">Contact</a>
+            </nav>
+        </div>
+
+        <!-- Mobile Quick Contact CTA Info -->
+        <div class="flex flex-col gap-3">
+            <a href="https://wa.me/923175006728" target="_blank"
+                class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-semibold text-white transition-all text-center flex items-center justify-center gap-2 shadow-lg">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Chat on WhatsApp
+            </a>
+            <!-- Inside the CTAs div -->
+            <a href="Maaz khan.pdf" download="Maaz khan.pdf"
+                class="px-8 py-4 rounded-xl bg-slate-800 border border-slate-700 text-white font-semibold hover:border-neon transition-all duration-300 flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> Download CV
+            </a>
+
+            <a href="tel:+923175006728"
+                class="w-full py-3.5 rounded-xl neon-border hover:bg-slate-900 font-semibold text-white transition-all text-center flex items-center justify-center gap-2 bg-slate-900/40">
+                <i class="fa-solid fa-phone"></i> Direct Call
+            </a>
+        </div>
+    </div>
+
+    <!-- HERO / HOME SECTION -->
+    <section id="home" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+        <!-- Background Ambient Neon Glow Dots -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-cyan-500/10 blur-[120px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-pink-500/10 blur-[120px] pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Details Box -->
+                <div class="lg:col-span-7 flex flex-col justify-center text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 justify-center lg:justify-start mb-4">
+                        <span class="w-2.5 h-2.5 rounded-full bg-neon animate-ping"></span>
+                        <span class="text-neon text-sm font-semibold tracking-widest uppercase font-display">Hello, My
+                            Name is</span>
+                    </div>
+
+                    <h1
+                        class="text-5xl sm:text-6xl lg:text-7xl font-extrabold font-display tracking-tight text-white mb-3">
+                        Maaz Khan
+                    </h1>
+
+                    <h2 class="text-xl sm:text-2xl font-semibold text-neon-pink mb-6">
+                        Freelance Designer & Developer
+                    </h2>
+
+                    <!-- Experience / Complete Counter widgets -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-8">
+                        <div class="px-5 py-3 rounded-2xl glass-panel flex items-center gap-3 border border-slate-800">
+                            <span class="text-3xl font-bold text-neon font-display">4+</span>
+                            <span class="text-xs text-slate-400 font-medium leading-tight">Years of<br>Experience</span>
+                        </div>
+                        <div class="px-5 py-3 rounded-2xl glass-panel flex items-center gap-3 border border-slate-800">
+                            <span class="text-3xl font-bold text-neon font-display">330</span>
+                            <span class="text-xs text-slate-400 font-medium leading-tight">Completed<br>Projects</span>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-400 text-base sm:text-lg mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        I am from Peshawar, Pakistan. I have rich experience in web design, web development, graphic
+                        design, and WordPress customization. I love discussing what makes your business unique and
+                        translating it into pixels.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <a href="#contact"
+                            class="px-8 py-4 rounded-xl bg-neon text-black font-bold tracking-wide hover:scale-105 transition-all duration-300 shadow-xl shadow-cyan-500/20">
+                            Hire Me Now
+                        </a>
+                        <a href="https://wa.me/923175006728" target="_blank"
+                            class="px-8 py-4 rounded-xl bg-slate-900 border border-emerald-600/30 text-white font-semibold hover:border-emerald-500 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-500 text-xl"></i> WhatsApp Me
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Visual Portrait Container -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-72 h-96 sm:w-80 sm:h-[420px] group">
+                        <!-- Neon Frame Glow Effect -->
+                        <div
+                            class="absolute -inset-1.5 bg-gradient-to-r from-cyan-400 to-pink-500 rounded-3xl blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200">
+                        </div>
+
+                        <!-- Main Image frame matching watermarked_img_1318662315746374517.png -->
+                        <div
+                            class="relative w-full h-full rounded-2xl bg-slate-950 overflow-hidden border border-slate-800">
+                            <!-- Highly professional avatar placeholder optimized as required -->
+                            <img src="./images/Maaz.webp" alt="Maaz Khan Portrait"
+                                onerror="this.src='https://placehold.co/600x800/121420/00E5FF?text=Maaz+Khan'"
+                                class="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-500">
+
+                            <!-- Glowing absolute corner details -->
+                            <div
+                                class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent p-6 flex flex-col justify-end">
+                                <span
+                                    class="text-xs uppercase font-semibold text-neon tracking-widest font-display mb-1">Freelancer
+                                    Status</span>
+                                <span class="text-sm font-bold text-white flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    Available Right Now
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION ("What I Do") -->
+    <section id="services" class="py-24 relative border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-neon text-sm font-bold uppercase tracking-widest font-display">Specializations</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">What I Do</h2>
+                <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Service 1: Web Development -->
+                <div
+                    class="glass-panel p-8 rounded-2xl hover:border-cyan-500/50 hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-neon text-2xl mb-6 group-hover:bg-neon group-hover:text-black transition-all">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Web Development</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Web designers craft the overall vision & plan for a website layout. Professional logo
+                            development: Business, Company, or Personal.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/923175006728" target="_blank"
+                        class="text-neon text-sm font-semibold hover:underline flex items-center gap-1.5 self-start">
+                        See Pricing <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2: Graphic Design -->
+                <div
+                    class="glass-panel p-8 rounded-2xl hover:border-pink-500/50 hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-pink-500/10 flex items-center justify-center text-neon-pink text-2xl mb-6 group-hover:bg-pink-500 group-hover:text-black transition-all">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Graphic Designing</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Design Logos and Book Cover Design. Creating modern, stylish designs tailored specifically
+                            to elevate your brand presence and market value.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/923175006728" target="_blank"
+                        class="text-neon text-sm font-semibold hover:underline flex items-center gap-1.5 self-start">
+                        See Pricing <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3: Game Development -->
+                <div
+                    class="glass-panel p-8 rounded-2xl hover:border-cyan-500/50 hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-neon text-2xl mb-6 group-hover:bg-neon group-hover:text-black transition-all">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Game Development</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Creating games & designing game systems. Developing unique, interactive, and highly
+                            optimized mobile games for Android and iOS systems.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/923175006728" target="_blank"
+                        class="text-neon text-sm font-semibold hover:underline flex items-center gap-1.5 self-start">
+                        See Pricing <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Service 4: Advertising -->
+                <div
+                    class="glass-panel p-8 rounded-2xl hover:border-pink-500/50 hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-pink-500/10 flex items-center justify-center text-neon-pink text-2xl mb-6 group-hover:bg-pink-500 group-hover:text-black transition-all">
+                            <i class="fa-solid fa-rectangle-ad"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Advertising</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Expert digital advertising services including: Google search result pages, Gmail, YouTube,
+                            and strategic PPC social media campaigns.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/923175006728" target="_blank"
+                        class="text-neon text-sm font-semibold hover:underline flex items-center gap-1.5 self-start">
+                        See Pricing <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Service 5: Music Writing -->
+                <div
+                    class="glass-panel p-8 rounded-2xl hover:border-cyan-500/50 hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-neon text-2xl mb-6 group-hover:bg-neon group-hover:text-black transition-all">
+                            <i class="fa-solid fa-music"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Music Writing</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Music copying, notation, layout creation, transcription, background scoring, and audio track
+                            composing services.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/923175006728" target="_blank"
+                        class="text-neon text-sm font-semibold hover:underline flex items-center gap-1.5 self-start">
+                        See Pricing <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Accent CTA Card -->
+                <div
+                    class="p-8 rounded-2xl border border-dashed border-cyan-500/40 bg-slate-900/20 backdrop-blur-sm flex flex-col justify-center text-center">
+                    <h3 class="text-xl font-bold text-white mb-2">Have a Custom Project?</h3>
+                    <p class="text-slate-400 text-sm mb-6">Let's craft unique code and assets built just for your
+                        company.</p>
+                    <a href="#contact"
+                        class="py-3 px-6 rounded-xl bg-neon text-black font-bold tracking-wide hover:scale-105 transition-all shadow-lg mx-auto">
+                        Start Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-24 relative bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up" data-aos-duration="1000">
+            <span class="text-neon text-sm font-bold uppercase tracking-widest font-display">Technical Expertise</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Professional Skills</h2>
+            <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white font-display group-hover:text-cyan-400 transition-colors">HTML</span>
+                    <span class="text-neon font-bold">80%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full mb-4 overflow-hidden">
+                    <div class="h-full bg-neon rounded-full transition-all duration-1000 ease-out" style="width: 80%"></div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Expert in HTML. Fully versed in semantic structures, custom canvas integrations, and accessible components.
+                </p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white font-display group-hover:text-cyan-400 transition-colors">JavaScript</span>
+                    <span class="text-neon font-bold">75%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full mb-4 overflow-hidden">
+                    <div class="h-full bg-neon rounded-full transition-all duration-1000 ease-out" style="width: 75%"></div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Using dynamic JS modules to make highly interactive web programs, animations, dynamic filtering, and API handlers.
+                </p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white font-display group-hover:text-cyan-400 transition-colors">CSS</span>
+                    <span class="text-neon font-bold">90%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full mb-4 overflow-hidden">
+                    <div class="h-full bg-neon rounded-full transition-all duration-1000 ease-out" style="width: 90%"></div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    In-depth command of responsive styling, modern layouts, flexbox, CSS Grid, custom transitions, and theme triggers.
+                </p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="400">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white font-display group-hover:text-cyan-400 transition-colors">Logo Design</span>
+                    <span class="text-neon font-bold">85%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full mb-4 overflow-hidden">
+                    <div class="h-full bg-neon rounded-full transition-all duration-1000 ease-out" style="width: 85%"></div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Designing clean vector-based minimalist logos that become instantly recognizable brands on high-end layouts.
+                </p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="500">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white font-display group-hover:text-cyan-400 transition-colors">WordPress</span>
+                    <span class="text-neon font-bold">70%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full mb-4 overflow-hidden">
+                    <div class="h-full bg-neon rounded-full transition-all duration-1000 ease-out" style="width: 70%"></div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Speedy page-builders, dynamic post queries, custom themes, plugin orchestration, and client handoffs.
+                </p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-500 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] hover:-translate-y-2 group" data-aos="fade-up" data-aos-delay="600">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="font-bold text-white font-display group-hover:text-cyan-400 transition-colors">Adobe Ai / Ps</span>
+                    <span class="text-neon font-bold">95%</span>
+                </div>
+                <div class="w-full h-2.5 bg-slate-800 rounded-full mb-4 overflow-hidden">
+                    <div class="h-full bg-neon rounded-full transition-all duration-1000 ease-out" style="width: 95%"></div>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Creating vector compositions, layout assets, photo editing, book and album covers with absolute pixel perfection.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- WORKS / PORTFOLIO SECTION -->
+    <section id="works" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-down" data-aos-duration="1000">
+            <span class="text-neon text-sm font-bold uppercase tracking-widest font-display">Gallery</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Selected Works</h2>
+            <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <!-- Interactive Filters Grid Trigger Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+            <button onclick="filterPortfolio('all')" class="portfolio-tab px-5 py-2 rounded-full font-medium text-sm glass-panel text-slate-400 hover:text-white transition-all active-tab border border-cyan-500 bg-cyan-500/10 text-cyan-400">All</button>
+            <button onclick="filterPortfolio('branding')" class="portfolio-tab px-5 py-2 rounded-full font-medium text-sm glass-panel text-slate-400 hover:text-white transition-all">Branding</button>
+            <button onclick="filterPortfolio('development')" class="portfolio-tab px-5 py-2 rounded-full font-medium text-sm glass-panel text-slate-400 hover:text-white transition-all">Development</button>
+            <button onclick="filterPortfolio('photography')" class="portfolio-tab px-5 py-2 rounded-full font-medium text-sm glass-panel text-slate-400 hover:text-white transition-all">Photography</button>
+        </div>
+
+        <!-- Portfolio Items Grid -->
+        <div id="portfolioGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Reusable Card Structure with Animations -->
+            <!-- Note: Apply this same class and data-aos to all project divs -->
+            
+            <!-- Project 1: Zorro -->
+            <div class="portfolio-item glass-panel rounded-2xl overflow-hidden group hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.3)]" data-category="branding" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative h-60 overflow-hidden bg-slate-900">
+                    <img src="./images/1.webp" alt="Zorro Branding Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" onerror="this.src='https://placehold.co/600x400/121420/00E5FF?text=Zorro'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
+                    <span class="absolute top-4 right-4 bg-cyan-900/80 backdrop-blur-md text-neon text-xs font-bold px-3 py-1.5 rounded-full border border-cyan-500/30 uppercase">Branding</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Zorro</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-4">The work that I do for others who want a clean, simple and budget-friendly site layout to kick off their online venture.</p>
+                    <a href="https://wa.me/923175006728" target="_blank" class="text-neon text-xs font-bold flex items-center gap-1 hover:underline">See Pricing <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 2: Explore -->
+            <div class="portfolio-item glass-panel rounded-2xl overflow-hidden group hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.3)]" data-category="development" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative h-60 overflow-hidden bg-slate-900">
+                    <img src="./images/2.webp" alt="Explore Development Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" onerror="this.src='https://placehold.co/600x400/121420/00E5FF?text=Explore'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
+                    <span class="absolute top-4 right-4 bg-purple-900/80 backdrop-blur-md text-purple-300 text-xs font-bold px-3 py-1.5 rounded-full border border-purple-500/30 uppercase">Development</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Explore</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-4">The development of highly functional client products is my core profession, helping businesses grow and expand their tech skills.</p>
+                    <a href="https://wa.me/923175006728" target="_blank" class="text-neon text-xs font-bold flex items-center gap-1 hover:underline">See Pricing <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 3: Mozar -->
+            <div class="portfolio-item glass-panel rounded-2xl overflow-hidden group hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.3)]" data-category="photography" data-aos="fade-up" data-aos-delay="300">
+                <div class="relative h-60 overflow-hidden bg-slate-900">
+                    <img src="./images/3.webp" alt="Mozar Photography Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" onerror="this.src='https://placehold.co/600x400/121420/00E5FF?text=Mozar'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
+                    <span class="absolute top-4 right-4 bg-pink-900/80 backdrop-blur-md text-pink-300 text-xs font-bold px-3 py-1.5 rounded-full border border-pink-500/30 uppercase">Photography</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">Mozar</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-4">Photography is one of my primary creative passions, bringing distinct artistic styles and capturing cinematic details in visual form.</p>
+                    <a href="https://wa.me/923175006728" target="_blank" class="text-neon text-xs font-bold flex items-center gap-1 hover:underline">See Pricing <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 4: Gooir -->
+            <div class="portfolio-item glass-panel rounded-2xl overflow-hidden group hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.3)]" data-category="photography" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative h-60 overflow-hidden bg-slate-900">
+                    <img src="./images/4.webp" alt="Gooir Photography Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" onerror="this.src='https://placehold.co/600x400/121420/00E5FF?text=Gooir'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
+                    <span class="absolute top-4 right-4 bg-pink-900/80 backdrop-blur-md text-pink-300 text-xs font-bold px-3 py-1.5 rounded-full border border-pink-500/30 uppercase">Photography</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">Gooir</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-4">Completing beautiful studio layout sessions with creative focus allows me to accumulate crucial marketing insights.</p>
+                    <a href="https://wa.me/923175006728" target="_blank" class="text-neon text-xs font-bold flex items-center gap-1 hover:underline">See Pricing <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 5: Stay Fit -->
+            <div class="portfolio-item glass-panel rounded-2xl overflow-hidden group hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.3)]" data-category="development" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative h-60 overflow-hidden bg-slate-900">
+                    <img src="./images/5.webp" alt="Stay Fit Development Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" onerror="this.src='https://placehold.co/600x400/121420/00E5FF?text=Stay+Fit'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
+                    <span class="absolute top-4 right-4 bg-purple-900/80 backdrop-blur-md text-purple-300 text-xs font-bold px-3 py-1.5 rounded-full border border-purple-500/30 uppercase">Development</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Stay Fit</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-4">Developing dynamic applications from scratch, utilizing beautiful styling triggers, database layers, and high-performance screens.</p>
+                    <a href="https://wa.me/923175006728" target="_blank" class="text-neon text-xs font-bold flex items-center gap-1 hover:underline">See Pricing <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+                </div>
+            </div>
+
+            <!-- Project 6: Kana -->
+            <div class="portfolio-item glass-panel rounded-2xl overflow-hidden group hover:border-cyan-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,0.3)]" data-category="branding" data-aos="fade-up" data-aos-delay="300">
+                <div class="relative h-60 overflow-hidden bg-slate-900">
+                    <img src="./images/6.webp" alt="Kana Branding Project" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" onerror="this.src='https://placehold.co/600x400/121420/00E5FF?text=Kana'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80"></div>
+                    <span class="absolute top-4 right-4 bg-cyan-900/80 backdrop-blur-md text-neon text-xs font-bold px-3 py-1.5 rounded-full border border-cyan-500/30 uppercase">Branding</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">Kana</h3>
+                    <p class="text-slate-400 text-xs leading-relaxed mb-4">Creating sophisticated design directions, company pitch booklets, and unified identity systems for high-profile portfolios.</p>
+                    <a href="https://wa.me/923175006728" target="_blank" class="text-neon text-xs font-bold flex items-center gap-1 hover:underline">See Pricing <i class="fa-solid fa-chevron-right text-[10px]"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+    
+    <!-- RESUME SECTION -->
+<section id="resume" class="py-24 relative bg-slate-950/40 border-t border-slate-900" data-aos="fade-up" data-aos-duration="1000">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-neon text-sm font-bold uppercase tracking-widest font-display">Pathways</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Resume</h2>
+            <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <!-- Resume Timeline Grid -->
+        <div class="grid lg:grid-cols-2 gap-12">
+            
+            <!-- Education Column -->
+            <div class="group/col">
+                <h3 class="text-2xl font-bold font-display text-white mb-8 flex items-center gap-3 group">
+                    <i class="fa-solid fa-user-graduate text-neon transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110"></i> Education
+                </h3>
+                <div class="border-l-2 border-slate-800 ml-3 space-y-8 relative transition-colors duration-500 group-hover/col:border-cyan-500/50">
+                    <!-- Edu Block 1 -->
+                    <div class="relative pl-8 group transition-all duration-500 hover:pl-12" data-aos="fade-left" data-aos-delay="200">
+                        <span class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neon transition-all duration-500 group-hover:bg-cyan-400 group-hover:scale-150 group-hover:shadow-[0_0_10px_rgba(34,211,238,0.8)]"></span>
+                        <span class="text-xs font-bold text-neon uppercase font-display bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 transition-all group-hover:bg-neon group-hover:text-black">Specialized</span>
+                        <h4 class="text-lg font-bold text-white mt-3 transition-colors group-hover:text-neon">CoderHouse Courses</h4>
+                        <p class="text-sm text-slate-400 mt-1 transition-colors group-hover:text-slate-200">Full-stack web design systems, interactive JavaScript development, and advanced frontend layout logic.</p>
+                    </div>
+                    <!-- Edu Block 2 -->
+                    <div class="relative pl-8 group transition-all duration-500 hover:pl-12" data-aos="fade-left" data-aos-delay="400">
+                        <span class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neon transition-all duration-500 group-hover:bg-cyan-400 group-hover:scale-150 group-hover:shadow-[0_0_10px_rgba(34,211,238,0.8)]"></span>
+                        <span class="text-xs font-bold text-neon uppercase font-display bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 transition-all group-hover:bg-neon group-hover:text-black">English & Tech</span>
+                        <h4 class="text-lg font-bold text-white mt-3 transition-colors group-hover:text-neon">Hope English and Computer Center</h4>
+                        <p class="text-sm text-slate-400 mt-1 transition-colors group-hover:text-slate-200">Formal studies in professional communications, computer science fundamentals, and desktop publishing software.</p>
+                    </div>
+                    <!-- Edu Block 3 -->
+                    <div class="relative pl-8 group transition-all duration-500 hover:pl-12" data-aos="fade-left" data-aos-delay="600">
+                        <span class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neon transition-all duration-500 group-hover:bg-cyan-400 group-hover:scale-150 group-hover:shadow-[0_0_10px_rgba(34,211,238,0.8)]"></span>
+                        <span class="text-xs font-bold text-neon uppercase font-display bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 transition-all group-hover:bg-neon group-hover:text-black">Computing</span>
+                        <h4 class="text-lg font-bold text-white mt-3 transition-colors group-hover:text-neon">IT Future</h4>
+                        <p class="text-sm text-slate-400 mt-1 transition-colors group-hover:text-slate-200">High-end database structuring, network principles, server frameworks, and creative digital designs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience Column -->
+            <div class="group/col">
+                <h3 class="text-2xl font-bold font-display text-white mb-8 flex items-center gap-3 group">
+                    <i class="fa-solid fa-briefcase text-neon-pink transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110"></i> Experience
+                </h3>
+                <div class="border-l-2 border-slate-800 ml-3 space-y-8 relative transition-colors duration-500 group-hover/col:border-pink-500/50">
+                    <!-- Exp Block 1 -->
+                    <div class="relative pl-8 group transition-all duration-500 hover:pl-12" data-aos="fade-right" data-aos-delay="200">
+                        <span class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neon-pink transition-all duration-500 group-hover:bg-pink-400 group-hover:scale-150 group-hover:shadow-[0_0_10px_rgba(236,72,153,0.8)]"></span>
+                        <span class="text-xs font-bold text-neon-pink uppercase font-display bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20 transition-all group-hover:bg-neon-pink group-hover:text-black">Managerial</span>
+                        <h4 class="text-lg font-bold text-white mt-3 transition-colors group-hover:text-neon-pink">Logos Head & Manager</h4>
+                        <p class="text-sm text-slate-400 mt-1 transition-colors group-hover:text-slate-200">Orchestrating design pipelines, consulting corporate clients, managing asset distribution, and finalizing identity booklets.</p>
+                    </div>
+                    <!-- Exp Block 2 -->
+                    <div class="relative pl-8 group transition-all duration-500 hover:pl-12" data-aos="fade-right" data-aos-delay="400">
+                        <span class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neon-pink transition-all duration-500 group-hover:bg-pink-400 group-hover:scale-150 group-hover:shadow-[0_0_10px_rgba(236,72,153,0.8)]"></span>
+                        <span class="text-xs font-bold text-neon-pink uppercase font-display bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20 transition-all group-hover:bg-neon-pink group-hover:text-black">Production</span>
+                        <h4 class="text-lg font-bold text-white mt-3 transition-colors group-hover:text-neon-pink">Graphic Designing</h4>
+                        <p class="text-sm text-slate-400 mt-1 transition-colors group-hover:text-slate-200">Generating marketing layouts, building vectors inside Adobe Illustrator, custom typography, and web integrations.</p>
+                    </div>
+                    <!-- Exp Block 3 -->
+                    <div class="relative pl-8 group transition-all duration-500 hover:pl-12" data-aos="fade-right" data-aos-delay="600">
+                        <span class="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neon-pink transition-all duration-500 group-hover:bg-pink-400 group-hover:scale-150 group-hover:shadow-[0_0_10px_rgba(236,72,153,0.8)]"></span>
+                        <span class="text-xs font-bold text-neon-pink uppercase font-display bg-pink-500/10 px-3 py-1 rounded-full border border-pink-500/20 transition-all group-hover:bg-neon-pink group-hover:text-black">Print Media</span>
+                        <h4 class="text-lg font-bold text-white mt-3 transition-colors group-hover:text-neon-pink">Product & Cover Design</h4>
+                        <p class="text-sm text-slate-400 mt-1 transition-colors group-hover:text-slate-200">Illustrating cover art for albums and books, designing high-resolution product labels, and standardizing physical packaging.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+   <!-- TESTIMONIALS SECTION -->
+<section id="testimonials" data-aos="fade-up" class="py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Animated Header -->
+        <div data-aos="fade-down" data-aos-delay="200" class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-neon text-sm font-bold uppercase tracking-widest font-display">Endorsements</span>
+            <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Testimonials</h2>
+            <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <!-- Carousel Wrapper -->
+        <div data-aos="zoom-in" data-aos-delay="400" class="relative max-w-3xl mx-auto">
+            <div id="testimonialContainer" class="relative min-h-[280px]">
+                
+                <!-- Helper style for the card: Added bg, padding, border, and hover transform -->
+                <!-- Use a common class structure for all cards -->
+                
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card block transition-all duration-500 transform scale-100 opacity-100 text-center p-8 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg hover:border-neon/50 hover:-translate-y-2 transition-all duration-300">
+                    <i class="fa-solid fa-quote-left text-4xl text-neon-pink/40 mb-6"></i>
+                    <p class="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
+                        "I work with Maaz Khan! He is the best Developer ever I saw in my life, He completed my work
+                        as a Professional developer if you want good work so here is."
+                    </p>
+                    <h4 class="text-white font-bold font-display text-lg">Barbara Wilson</h4>
+                    <span class="text-xs text-neon uppercase font-semibold tracking-wider">CEO Company</span>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card hidden transition-all duration-500 transform scale-95 opacity-0 text-center p-8 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg hover:border-neon/50 hover:-translate-y-2 transition-all duration-300">
+                    <i class="fa-solid fa-quote-left text-4xl text-neon-pink/40 mb-6"></i>
+                    <p class="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
+                        "I make my logo on the MK Designer He is the best Designer and also the Graphic Design with
+                        the any kind of Name, Brand and Products all kind of work he do."
+                    </p>
+                    <h4 class="text-white font-bold font-display text-lg">Charlie Smith</h4>
+                    <span class="text-xs text-neon uppercase font-semibold tracking-wider">Designer</span>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card hidden transition-all duration-500 transform scale-95 opacity-0 text-center p-8 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg hover:border-neon/50 hover:-translate-y-2 transition-all duration-300">
+                    <i class="fa-solid fa-quote-left text-4xl text-neon-pink/40 mb-6"></i>
+                    <p class="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
+                        "My Album Cover looks very fantastic just because of the Maaz Khan Designer. If anyone sees
+                        this Album, they ask me where I had it made."
+                    </p>
+                    <h4 class="text-white font-bold font-display text-lg">Roy Wang</h4>
+                    <span class="text-xs text-neon uppercase font-semibold tracking-wider">Manager GYM</span>
+                </div>
+
+                <!-- Testimonial 4 -->
+                <div class="testimonial-card hidden transition-all duration-500 transform scale-95 opacity-0 text-center p-8 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg hover:border-neon/50 hover:-translate-y-2 transition-all duration-300">
+                    <i class="fa-solid fa-quote-left text-4xl text-neon-pink/40 mb-6"></i>
+                    <p class="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
+                        "He Do the Data Entry work for me from Home. How much time he give me he completed my work,
+                        he is loyal for the clients work that they want to do any thing."
+                    </p>
+                    <h4 class="text-white font-bold font-display text-lg">Jennifer Smith</h4>
+                    <span class="text-xs text-neon uppercase font-semibold tracking-wider">CEO & Founder</span>
+                </div>
+
+                <!-- Testimonial 5 -->
+                <div class="testimonial-card hidden transition-all duration-500 transform scale-95 opacity-0 text-center p-8 md:p-10 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-lg hover:border-neon/50 hover:-translate-y-2 transition-all duration-300">
+                    <i class="fa-solid fa-quote-left text-4xl text-neon-pink/40 mb-6"></i>
+                    <p class="text-base sm:text-lg text-slate-300 italic mb-8 leading-relaxed">
+                        "He is my Portfolio Developer. He made the best portfolio for me through which I got my job
+                        from other companies and my friends ask me about him."
+                    </p>
+                    <h4 class="text-white font-bold font-display text-lg">Paul Freeman</h4>
+                    <span class="text-xs text-neon uppercase font-semibold tracking-wider">Photographer</span>
+                </div>
+            </div>
+
+            <!-- Carousel Controls -->
+            <div class="flex items-center justify-center gap-6 mt-12">
+                <button onclick="prevTestimonial()" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-neon transition-all">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                
+                <div class="flex items-center gap-2" id="carouselIndicators">
+                    <!-- Dots -->
+                    <span class="w-2.5 h-2.5 rounded-full bg-neon cursor-pointer" onclick="setTestimonial(0)"></span>
+                    <span class="w-2 h-2 rounded-full bg-slate-800 hover:bg-slate-700 cursor-pointer" onclick="setTestimonial(1)"></span>
+                    <span class="w-2 h-2 rounded-full bg-slate-800 hover:bg-slate-700 cursor-pointer" onclick="setTestimonial(2)"></span>
+                    <span class="w-2 h-2 rounded-full bg-slate-800 hover:bg-slate-700 cursor-pointer" onclick="setTestimonial(3)"></span>
+                    <span class="w-2 h-2 rounded-full bg-slate-800 hover:bg-slate-700 cursor-pointer" onclick="setTestimonial(4)"></span>
+                </div>
+                
+                <button onclick="nextTestimonial()" class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:border-neon transition-all">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+     <!-- for the testimonials style -->
+      <style>
+  /* Hover effect for the testimonial card */
+  .testimonial-card {
+    transition: all 0.5s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* Hover effect for navigation buttons */
+  .glass-panel:hover {
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); /* Cyan glow */
+  }
+
+  /* Smooth fade for the text inside testimonials */
+  .testimonial-card p {
+    transition: opacity 0.3s ease;
+  }
+  
+  .testimonial-card:hover p {
+    opacity: 0.9;
+  }
+</style>
+
+<!-- script for the testimonials section -->
+ <script>
+  // Automatically switch testimonials every 5 seconds
+  setInterval(() => {
+    if (typeof nextTestimonial === 'function') {
+      nextTestimonial();
+    }
+  }, 5000);
+</script>
+
+    <!-- CONTACT ME SECTION -->
+    <section id="contact" class="py-24 relative bg-slate-950/40 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-neon text-sm font-bold uppercase tracking-widest font-display">Get In Touch</span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Contact Me</h2>
+                <div class="w-16 h-1 bg-neon mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-start">
+                <!-- Info Blocks (5 Cols) -->
+                <div class="lg:col-span-5 flex flex-col gap-6">
+                    <!-- Address Block -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl flex gap-4 items-start hover:border-slate-800 transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-neon text-xl shrink-0">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white font-display text-sm uppercase tracking-wide">Address</h4>
+                            <p class="text-sm text-slate-400 mt-1">KPK Peshawar, Kohat Adda, Street No 2</p>
+                        </div>
+                    </div>
+
+                    <!-- Freelance Status Block -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl flex gap-4 items-start hover:border-slate-800 transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-neon-pink text-xl shrink-0">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white font-display text-sm uppercase tracking-wide">Freelance</h4>
+                            <p class="text-sm text-green-400 mt-1 font-semibold flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+                                Available Right Now
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Email Block -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl flex gap-4 items-start hover:border-slate-800 transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-neon text-xl shrink-0">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white font-display text-sm uppercase tracking-wide">Email</h4>
+                            <a href="mailto:maazkhanbk20@gmail.com"
+                                class="text-sm text-slate-400 mt-1 hover:text-white hover:underline block">maazkhanbk20@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <!-- Phone Block -->
+                    <div
+                        class="glass-panel p-6 rounded-2xl flex gap-4 items-start hover:border-slate-800 transition-all">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center text-neon-pink text-xl shrink-0">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white font-display text-sm uppercase tracking-wide">Phone</h4>
+                            <a href="tel:+923191905319"
+                                class="text-sm text-slate-400 mt-1 hover:text-white hover:underline block">+92
+                                3191905319</a>
+                            <a href="tel:+923175006728" class="text-xs text-neon mt-0.5 block font-semibold">+92
+                                3175006728 (WhatsApp Priority)</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Box (7 Cols) -->
+                <div class="lg:col-span-7">
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)"
+                        class="glass-panel p-8 rounded-2xl border border-slate-800 flex flex-col gap-6">
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <!-- Full Name -->
+                            <div class="flex flex-col gap-2">
+                                <label for="formName"
+                                    class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Full Name
+                                    *</label>
+                                <input type="text" id="formName" required placeholder="Maaz Khan"
+                                    class="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                            </div>
+                            <!-- Email Address -->
+                            <div class="flex flex-col gap-2">
+                                <label for="formEmail"
+                                    class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Email Address
+                                    *</label>
+                                <input type="email" id="formEmail" required placeholder="client@company.com"
+                                    class="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                            </div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="flex flex-col gap-2">
+                            <label for="formSubject"
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Subject *</label>
+                            <input type="text" id="formSubject" required placeholder="Let's build a Web App"
+                                class="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all">
+                        </div>
+
+                        <!-- Message -->
+                        <div class="flex flex-col gap-2">
+                            <label for="formMessage"
+                                class="text-xs font-bold uppercase tracking-wider text-slate-400">Your Message *</label>
+                            <textarea id="formMessage" required rows="5"
+                                placeholder="Hi Maaz, I saw your cyber-neon portfolio and would love to hire you for..."
+                                class="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all resize-none"></textarea>
+                        </div>
+
+                        <!-- Terms Accept Checkbox -->
+                        <div class="flex items-start gap-3">
+                            <input type="checkbox" id="formTerms" required
+                                class="w-4.5 h-4.5 rounded text-cyan-500 bg-slate-900 border-slate-800 focus:ring-cyan-500 focus:ring-offset-slate-900 mt-0.5 cursor-pointer">
+                            <label for="formTerms"
+                                class="text-xs text-slate-400 cursor-pointer select-none leading-relaxed">
+                                Accept the terms and conditions. I consent to having Maaz Khan contact me regarding this
+                                business request.
+                            </label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                            class="w-full py-4 rounded-xl bg-neon hover:scale-102 text-black font-extrabold tracking-wider uppercase transition-all shadow-lg hover:shadow-cyan-500/20 text-sm">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOAST ALERT PANEL -->
+    <div id="toastAlert"
+        class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 max-w-sm glass-panel border border-cyan-500 p-4 rounded-2xl shadow-2xl flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-neon flex items-center justify-center">
+            <i class="fa-solid fa-paper-plane"></i>
+        </div>
+        <div>
+            <h4 class="text-sm font-bold text-white">Message Dispatched!</h4>
+            <p class="text-xs text-slate-400">Maaz Khan will reach you shortly.</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer data-aos="fade-up" data-aos-duration="1000" class="bg-slate-950 py-12 border-t border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        
+        <!-- Logo Section -->
+        <div data-aos="fade-right" data-aos-delay="200" class="text-center sm:text-left">
+            <img src="./images/logo.webp" alt="Maaz Khan Logo" class="w-10 h-10 mb-2">
+            <p class="text-xs text-slate-500 mt-2">© 2025 Maaz. All Rights Reserved.</p>
+        </div>
+
+        <!-- Social Icons Section -->
+        <div data-aos="zoom-in" data-aos-delay="400" class="flex items-center gap-6">
+            <a href="https://wa.me/923175006728" target="_blank"
+                class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-800 transition-all"><i
+                    class="fa-brands fa-whatsapp text-lg"></i></a>
+            <a href="tel:+923191905319"
+                class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-800 transition-all"><i
+                    class="fa-solid fa-phone"></i></a>
+            <a href="mailto:maazkhanbk20@gmail.com"
+                class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-800 transition-all"><i
+                    class="fa-solid fa-envelope"></i></a>
+        </div>
+
+        <!-- Developer Credit Section -->
+        <div data-aos="fade-left" data-aos-delay="600" class="text-center sm:text-right">
+            <p class="text-xs text-slate-400">Developed by <span
+                    class="font-bold text-neon-pink uppercase tracking-widest">Maaz</span></p>
+        </div>
+    </div>
+</footer>
+
+    <dialog id="contactModal" class="p-0 rounded-2xl bg-slate-900 border border-slate-700 backdrop:bg-black/80 w-[90%] max-w-md shadow-2xl">
+  <div class="p-6 text-slate-100">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-xl font-bold">Contact Maaz Khan</h3>
+      <button onclick="document.getElementById('contactModal').close()" class="text-slate-400 hover:text-white text-2xl">&times;</button>
+    </div>
+    
+    <!-- Map Section -->
+    <div class="w-full h-48 bg-slate-800 rounded-lg mb-4 overflow-hidden border border-slate-700">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d416301.7663248383!2d71.2238031252115!3d34.01509371071297!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38d91947a1662551%3A0x7d25e076735c0576!2sPeshawar%2C+Khyber+Pakhtunkhwa%2C+Pakistan!5e0!3m2!1sen!2s!4v1620000000000" 
+              width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+
+    <!-- Direct Links -->
+    <div class="flex flex-col gap-3">
+      <a href="https://wa.me/923175006728" target="_blank" class="w-full text-center px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-bold transition-all flex items-center justify-center gap-2">
+        <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+      </a>
+      <a href="tel:+923175006728" class="w-full text-center px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold transition-all flex items-center justify-center gap-2 border border-slate-600">
+        <i class="fa-solid fa-phone"></i> Call Me Now
+      </a>
+    </div>
+  </div>
+</dialog>
+
+
+<script>
+  // Close the popup when clicking outside the box
+  const modal = document.getElementById('contactModal');
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.close();
+  });
+</script>
+
+    <!-- INTERACTIVE FRONTEND CODE LOGIC -->
+    <script>
+        // STYLE / COLOR SWITCHER STATE & TOGGLES
+        const switcherToggle = document.getElementById('switcherToggle');
+        const switcherPanel = document.getElementById('switcherPanel');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const body = document.body;
+
+        switcherToggle.addEventListener('click', () => {
+            switcherPanel.classList.toggle('hidden');
+        });
+
+        // Hide Panel if click happens outside
+        window.addEventListener('click', (e) => {
+            if (!switcherPanel.contains(e.target) && !switcherToggle.contains(e.target)) {
+                switcherPanel.classList.add('hidden');
+            }
+        });
+
+        // Toggle Dark/Light Mode Theme
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light');
+            const isLight = body.classList.contains('light');
+            if (isLight) {
+                themeIcon.className = 'fa-solid fa-sun text-yellow-500';
+                themeText.textContent = 'Light Theme';
+                body.style.backgroundColor = '#f8fafc';
+                body.style.color = '#0f172a';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon text-neon';
+                themeText.textContent = 'Dark Theme';
+                body.style.backgroundColor = '#090a0f';
+                body.style.color = '#f1f5f9';
+            }
+        });
+
+        // Dynamic Accent Color Swap Logic
+        function setAccent(rgbString) {
+            document.documentElement.style.setProperty('--accent-rgb', rgbString);
+        }
+
+        // MOBILE HAMBURGER MENU NAV DRAWER TRIGGERS
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeBtn = document.getElementById('closeBtn');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        const closeMobileDrawer = () => {
+            mobileMenu.classList.add('translate-x-full');
+        };
+
+        closeBtn.addEventListener('click', closeMobileDrawer);
+        mobileLinks.forEach(link => link.addEventListener('click', closeMobileDrawer));
+
+        // PORTFOLIO FILTERING LOGIC
+        function filterPortfolio(category) {
+            // Update active state class of tab buttons
+            const tabs = document.querySelectorAll('.portfolio-tab');
+            tabs.forEach(tab => {
+                tab.className = "portfolio-tab px-5 py-2 rounded-full font-medium text-sm glass-panel text-slate-400 hover:text-white transition-all";
+            });
+
+            // Highlight the clicked category tab
+            const activeTab = Array.from(tabs).find(t => t.textContent.toLowerCase() === category);
+            if (activeTab) {
+                activeTab.className = "portfolio-tab px-5 py-2 rounded-full font-medium text-sm glass-panel text-white transition-all border border-cyan-500 bg-cyan-500/10 text-cyan-400";
+            }
+
+            // Perform item sorting with nice transition
+            const items = document.querySelectorAll('.portfolio-item');
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        item.style.display = 'none';
+                    }, 200);
+                }
+            });
+        }
+
+        // TESTIMONIAL CAROUSEL CONTROLLER
+        let activeTestimonialIndex = 0;
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const indicators = document.querySelectorAll('#carouselIndicators span');
+
+        function updateTestimonialDisplay() {
+            testimonialCards.forEach((card, index) => {
+                if (index === activeTestimonialIndex) {
+                    card.classList.remove('hidden');
+                    setTimeout(() => {
+                        card.classList.add('scale-100', 'opacity-100');
+                        card.classList.remove('scale-95', 'opacity-0');
+                    }, 50);
+                } else {
+                    card.classList.add('hidden', 'scale-95', 'opacity-0');
+                    card.classList.remove('scale-100', 'opacity-100');
+                }
+            });
+
+            // Update Indicator Dots
+            indicators.forEach((dot, index) => {
+                if (index === activeTestimonialIndex) {
+                    dot.className = "w-2.5 h-2.5 rounded-full bg-neon transition-all cursor-pointer";
+                } else {
+                    dot.className = "w-2 h-2 rounded-full bg-slate-800 hover:bg-slate-700 transition-all cursor-pointer";
+                }
+            });
+        }
+
+        function nextTestimonial() {
+            activeTestimonialIndex = (activeTestimonialIndex + 1) % testimonialCards.length;
+            updateTestimonialDisplay();
+        }
+
+        function prevTestimonial() {
+            activeTestimonialIndex = (activeTestimonialIndex - 1 + testimonialCards.length) % testimonialCards.length;
+            updateTestimonialDisplay();
+        }
+
+        function setTestimonial(index) {
+            activeTestimonialIndex = index;
+            updateTestimonialDisplay();
+        }
+
+        // Auto transition testimonial slides every 8 seconds
+        let autoSlide = setInterval(nextTestimonial, 8000);
+
+        // Reset auto transition upon manual click action
+        function resetAutoSlide() {
+            clearInterval(autoSlide);
+            autoSlide = setInterval(nextTestimonial, 8000);
+        }
+
+        // CONTACT FORM CLIENT FEEDBACK SUBMISSION
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('contactForm');
+            const toast = document.getElementById('toastAlert');
+
+            // Trigger sleek client notification feedback toast
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            // Automatically hide toast alert after 4 seconds
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 4000);
+
+            // Clear the form elements smoothly
+            form.reset();
+        }
+
+        // Ensure initialization fires upon window load
+        window.onload = function () {
+            updateTestimonialDisplay();
+        };
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,
+    once: true,
+  });
+</script>
+</body>
+
+</html>
